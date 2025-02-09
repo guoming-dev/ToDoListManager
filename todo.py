@@ -30,6 +30,10 @@ def parse_arguments():
     # Parse command-line arguments.
     parser = argparse.ArgumentParser(description="Command-Line Todo List Manager")
 
+    # Add priority argument (Optional, defaults to Low)
+    parser.add_argument("--priority", metavar="level", type=int, choices=[1, 2, 3],
+                        help="Set task priority: 1 (High), 2 (Medium), 3 (Low)")
+
     parser.add_argument("--add", metavar="task", type=str, help="Add a new task")
     parser.add_argument("--list", action="store_true", help="List all tasks")
     parser.add_argument("--complete", metavar="task_id", type=int, help="Mark a task as completed")
@@ -39,23 +43,57 @@ def parse_arguments():
     return parser.parse_args()
 
 # 5. Implement add_task() function to add a new task
-def add_task(task):
-    # Add a new task to the list.
-    tasks = load_tasks()
-    tasks.append({"task": task, "done": False})
-    save_tasks(tasks)
-    print(f"{Fore.GREEN}✅ Task added: {task}{Style.RESET_ALL}")
+def add_task(task, priority=None):
+    """
+    Adds a new task to the task list with a given priority level.
+    If no priority is provided, defaults to 3 (Low).
+    Priority Levels: 
+    - 1 (High) 🔥
+    - 2 (Medium) ⚡️
+    - 3 (Low) ✅
+    """
+    tasks = load_tasks()    # Load existing tasks
+
+    # ✅ Set default priority to 3 (Low) if not provided
+    if priority is None:
+        priority = 3
+
+    # ✅ Validate priority input (Only accept 1, 2, or 3)
+    if priority not in [1, 2, 3]:
+        print(f"{Fore.RED} ⚠️ Invalid priority! Use 1 (High), 2 (Medium), or 3 (Low).")
+        return
+
+    # Append task with priority field
+    tasks.append({"task": task, "done": False, "priority": priority})
+    save_tasks(tasks)   # Save tasks back to file
+    
+    print(f"{Fore.GREEN}✅ Task added: {task} (Priority: {priority}){Style.RESET_ALL}")
 
 # 6. Implement list_tasks() function to display all tasks
 def list_tasks():
-    # List all tasks.
+    """
+    Lists all tasks sorted by priority.
+    Displays ✅ for completed tasks and ❌ for pending tasks.
+    """
     tasks = load_tasks()
     if not tasks:
         print(f"{Fore.YELLOW}📁 No tasks found.")
         return
+    
+    # 🏷️ Priority labels for readability
+    priority_labels = {
+        1: "🔥 High",
+        2: "⚡️ Medium",
+        3: "✅ Low"
+    }
+    # 🔄 Sort tasks by priority (ascending: 1 → 3)
+    tasks.sort(key = lambda t: t["priority"])
+
+    # 🎨 Display sorted tasks
     for i, task in enumerate(tasks, 1):
         status = f"{Fore.GREEN}✅" if task["done"] else f"{Fore.RED}❌"
-        print(f"{Fore.CYAN}{i}, {status} {task['task']}{Style.RESET_ALL}")
+        priority_label = priority_labels.get(task["priority"], "❓ Unknown")
+        print(f"{Fore.CYAN}{i}, {status} {task['task']} [{priority_label}]{Style.RESET_ALL}")
 
 # 7. Implement complete_task() function to mark a task as done
 def complete_task(task_id):
@@ -89,10 +127,15 @@ def clear_completed_tasks():
 
 # 10. Main function to handle user commands
 def main():
-    args = parse_arguments()
+    """
+    Main function to handle user input and execute the corresponding task actions.
+    """
+    args = parse_arguments()    # Parse command-line arguments
 
     if args.add:
-        add_task(args.add)
+        # 🏷️ If priority is not specified, set it to 3 (Low)
+        priority = args.priority if args.priority is not None else 3
+        add_task(args.add, priority)
     elif args.list:
         list_tasks()
     elif args.complete:
