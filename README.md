@@ -34,6 +34,14 @@ Built with **scalability and modularity** in mind, this project follows best sof
 
 ## 🚀 Features & Usage
 
+### 💡 New Feature: Task Prioritization 
+
+**Highlights**:
+- Tasks can now have **priority levels**:
+- Default priority: If no priority is specified, tasks default to **Low (3)**.
+- Input validation ensures only valid priority levels (1, 2, or 3) are accepted.
+- Tasks are automatically **sorted by priority** when listed.
+
 ### ✅ Basic Functionality
 
 <table>
@@ -43,11 +51,11 @@ Built with **scalability and modularity** in mind, this project follows best sof
     </tr>
     <tr>
         <td><code>python todo.py --add "Task Name"</code></td>
-        <td>➕ Adds a new task</td>
+        <td>➕ Adds a new task (defaults to Low Priority (3) if none is specified)</td>
     </tr>
     <tr>
         <td><code>python todo.py --list</code></td>
-        <td>📋 Displays all tasks</td>
+        <td>📋 Displays all tasks, sorted by <strong>priority</strong> (High → Low)</td>
     </tr>
     <tr>
         <td><code>python todo.py --complete 2</code></td>
@@ -63,9 +71,29 @@ Built with **scalability and modularity** in mind, this project follows best sof
     </tr>
 </table>
 
-### 🛠️ Advanced Functionality (Planned Enhancements)
+### 🏷️ Advanced Functionality
 
-- 🔝 **Task Prioritization** - Sort tasks based on urgency.
+<table>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><code>python todo.py --add "Task Name" --priority 1</code></td>
+        <td>➕ Adds a new task with 🔥 <strong>High Priority (1)</strong></td>
+    </tr>
+    <tr>
+        <td><code>python todo.py --add "Task Name" --priority 2</code></td>
+        <td>➕ Adds a new task with ⚡️ <strong>Medium Priority (2)</strong></td>
+    </tr>
+    <tr>
+        <td><code>python todo.py --add "Task Name" --priority 3</code></td>
+        <td>➕ Adds a new task with ✅ <strong>Low Priority (3)</strong></td>
+    </tr>
+</table>
+
+### 🛠️ Future Planned Enhancements
+
 - ⏰ **Due Dates & Reminders** - Send notifications for upcoming tasks.
 - 🔄 **Export & Import** - Sync tasks across devices via APIs.
 - 🔁 **Recurring Tasks** - Automate repetitive task scheduling.
