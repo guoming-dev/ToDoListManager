@@ -6,6 +6,8 @@ The **Command-Line Todo List Manager** is a lightweight yet powerful Python-base
 
 Built with **scalability and modularity** in mind, this project follows best software engineering practices, ensuring maintainability and future enhancements.
 
+🎥 **Demo Video**: [Watch on YouTube](https://youtu.be/EaHFehEctIE)
+
 ---
 
 ## 🎯 Objectives
